@@ -1,5 +1,5 @@
-const user = (req, res) => {
-  res.send("hello from node!");
+const sayHi = (req, res) => {
+  res.json({message:"hello from node!"});
 };
 
-module.exports = { user };
+module.exports = { sayHi };

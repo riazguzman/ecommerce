@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 require("dotenv").config();
 
 // server
@@ -9,13 +8,7 @@ const app = express();
 const userRouter = require("./routes/user");
 
 // db
-mongoose
-  .connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("DB Connected"));
+require("./config/db")
 
 // Routes
 app.use("/api", userRouter);
