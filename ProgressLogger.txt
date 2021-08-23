@@ -1,0 +1,29 @@
+1. Created Simple Express Server
+    - Required express.
+    - Create an instance of an app (server) using express().
+    - app.use to load middleware.
+    - app.listen for the server to be listening to some port.
+    - We load our variables in .env to process.env using require("dotenv").config.
+    - Connect to mongodb server using Mongoose.connect().
+
+2. Divide Into Routers and Controllers
+    - Files are imported and exported in Node.js through modules.
+    - We orgnize our code by importing and exporting routers and middware using Node.js modules.
+
+3. Create User Model
+    - Virtual schemas are never saved on the mongoDB database.
+    - Rather they are calculated each time using setters, and accessed through getters.
+    - We encrypt using crypto.
+    
+    - User model has 2 methods: encrypt and authenticate.
+    - Encrypt encrypts whatever password it is given.
+    - Authenticate checks that the hash of the given password matches the hash of the actual password.
+
+4. JWT and cookies
+    - JWT are tokens that are signed if a user is able to successfully provide a valid username and password.
+    - These tokens are sent along as cookies along with the response.
+    - Authorization: This is the most common scenario for using JWT. Once the user is logged in, each subsequent 
+      request will include the JWT, allowing the user to access routes, services, and resources that are permitted
+      with that token. Single Sign On is a feature that widely uses JWT nowadays, because of its small overhead
+      and its ability to be easily used across different domains.
+
