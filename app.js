@@ -1,4 +1,7 @@
 const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 // server
@@ -8,7 +11,12 @@ const app = express();
 const userRouter = require("./routes/user");
 
 // db
-require("./config/db")
+require("./config/db");
+
+// Middlewards
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api", userRouter);
