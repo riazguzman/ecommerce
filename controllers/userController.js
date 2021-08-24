@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken"); // To generate signed token
-const expresseJwt = require("express-jwt"); // For authorization check
+const expressJwt = require("express-jwt"); // For authorization check
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
 const signup = (req, res) => {
@@ -50,5 +50,12 @@ const signout = (req, res) => {
   res.clearCookie("t");
   res.json({ message: "Signout success" });
 };
+
+// Middleware for checking if user is authenticated for accessing private routes.
+exports.requireSignin = expressJwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"], // added later
+  userProperty: "auth",
+});
 
 module.exports = { signup, signin, signout };
