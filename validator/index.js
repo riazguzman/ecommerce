@@ -1,4 +1,5 @@
-// Express Validator Middleware
+// Express Validator Middleware. We are able to use thes functions such as req.check, because we have
+// app.use(express-validator) used as our middleware in app.js.
 const userSignupValidator = (req, res, next) => {
   req.check("name", "Name is required").notEmpty();
   req
