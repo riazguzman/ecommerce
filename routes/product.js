@@ -11,6 +11,9 @@ const {
   update,
   list,
   listRelated,
+  listCategories,
+  listBySearch,
+  photo,
 } = require("../controllers/productController");
 const { findUserById } = require("../controllers/userController");
 
@@ -45,6 +48,10 @@ router.put(
 
 router.get("/products", list);
 router.get("/products/related/:productId", listRelated);
+router.get("/products/categories", listCategories);
+// route - make sure its post
+router.post("/products/by/search", listBySearch);
+router.get("/product/photo/:productId", photo);
 
 // Export router using Node.js modules.
 module.exports = router;

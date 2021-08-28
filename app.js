@@ -13,6 +13,8 @@ const cookieParser = require("cookie-parser");
 // express-validator (Middleware that wraps app.js in functions that can be used to validate inputs).
 const expressValidator = require("express-validator");
 
+const cors = require("cors");
+
 // Saves the variables in .env file to process.env.
 require("dotenv").config();
 
@@ -33,6 +35,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(cors());
 
 // Routes
 app.use("/api", authRouter);

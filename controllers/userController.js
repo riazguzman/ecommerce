@@ -12,3 +12,33 @@ exports.findUserById = (req, res, next, id) => {
     }
   });
 };
+
+exports.read = (req, res) => {
+  let profile = req.profile;
+
+  if (profile) {
+    profile.hashed_password = undefined;
+    profile.salt = undefined;
+
+    return res.json({
+      profile,
+    });
+  }
+};
+
+exports.update = (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    { new: true }
+  ).exec((err, profile) => {
+    if (err || !profile) {
+      return res.status(400).json({
+        error: "You have no access to update this profile",
+      });
+    }
+    profile.hashed_password = undefined;
+    profile.salt = undefined;
+    res.json(profile);
+  });
+};

@@ -7,7 +7,7 @@ const {
   isAuth,
   isAdmin,
 } = require("../controllers/authController");
-const { findUserById } = require("../controllers/userController");
+const { findUserById, read, update } = require("../controllers/userController");
 
 // Create an instance of a router with all of it's function such as .get, .post etc.
 const router = express.Router();
@@ -24,6 +24,9 @@ router.get("/secret/:userId", requireSignin, isAuth, isAdmin, (req, res) => {
     user: req.auth,
   });
 });
+
+router.get("/user/:userId", requireSignin, isAuth, read);
+router.put("/user/:userId", requireSignin, isAuth, update);
 
 // Export router using Node.js modules.
 module.exports = router;
