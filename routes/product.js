@@ -8,6 +8,7 @@ const {
   read,
   findProductById,
   remove,
+  update,
 } = require("../controllers/productController");
 const { findUserById } = require("../controllers/userController");
 
@@ -17,6 +18,10 @@ const {
   isAdmin,
   requireSignin,
 } = require("../controllers/authController");
+
+// Calls callback function every time "userId" is in the parameter.
+router.param("userId", findUserById);
+router.param("productId", findProductById);
 
 // Define endpoints
 router.get("/product/:productId", read);
@@ -28,10 +33,13 @@ router.delete(
   isAdmin,
   remove
 );
-
-// Calls callback function every time "userId" is in the parameter.
-router.param("userId", findUserById);
-router.param("productId", findProductById);
+router.put(
+  "/product/:productId/:userId",
+  requireSignin,
+  isAuth,
+  isAdmin,
+  update
+);
 
 // Export router using Node.js modules.
 module.exports = router;
