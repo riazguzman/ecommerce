@@ -155,4 +155,62 @@ const create = (req, res) => {
   });
 };
 
-module.exports = { create, findProductById, read, remove, update };
+/**
+ * sell / arrival
+ * by sell = /products?sortBy=sold&order=desc&limit=4
+ * by arrival = /products?sortBy=createdAt&order=desc&limit=4
+ * if no params are sent, then all products are returned.
+ */
+
+const list = (req, res) => {
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+  Product.find()
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      } else {
+        res.send(products);
+      }
+    });
+};
+
+/**
+ * It will find the products based on the req product category.
+ * Other products that have the same category will be returned.
+ */
+
+const listRelated = (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+  Product.find({ _id: { $ne: req.product }, category: req.product.category })
+    .limit(limit)
+    .populate("category", "_id name")
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      } else {
+        res.send(products);
+      }
+    });
+};
+
+module.exports = {
+  create,
+  findProductById,
+  read,
+  remove,
+  update,
+  list,
+  listRelated,
+};

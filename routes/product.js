@@ -9,6 +9,8 @@ const {
   findProductById,
   remove,
   update,
+  list,
+  listRelated,
 } = require("../controllers/productController");
 const { findUserById } = require("../controllers/userController");
 
@@ -40,6 +42,9 @@ router.put(
   isAdmin,
   update
 );
+
+router.get("/products", list);
+router.get("/products/related/:productId", listRelated);
 
 // Export router using Node.js modules.
 module.exports = router;
