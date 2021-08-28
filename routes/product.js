@@ -1,8 +1,14 @@
 // express
 const express = require("express");
+const router = express.Router();
 
 // Abstract away thse controllers (controllers are the middleware that do operations on the request and response).
-const { create } = require("../controllers/categoryController");
+const {
+  create,
+  read,
+  findProductById,
+  remove,
+} = require("../controllers/productController");
 const { findUserById } = require("../controllers/userController");
 
 // Middlewares from auth controller
@@ -12,14 +18,20 @@ const {
   requireSignin,
 } = require("../controllers/authController");
 
-// Create an instance of a router with all of it's function such as .get, .post etc.
-const router = express.Router();
-
-// Define an endpoint.
-router.post("/create/:userId", requireSignin, isAuth, isAdmin, create);
+// Define endpoints
+router.get("/product/:productId", read);
+router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
+router.delete(
+  "/product/:productId/:userId",
+  requireSignin,
+  isAuth,
+  isAdmin,
+  remove
+);
 
 // Calls callback function every time "userId" is in the parameter.
 router.param("userId", findUserById);
+router.param("productId", findProductById);
 
 // Export router using Node.js modules.
 module.exports = router;
